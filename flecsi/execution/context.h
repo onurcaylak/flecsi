@@ -81,7 +81,7 @@ struct context__ : public CONTEXT_POLICY {
    */
   struct sparse_index_space_info_t {
     size_t index_space;
-    size_t reserve_chunk;
+    size_t exclusive_reserve;
     size_t max_entries_per_index;
     size_t max_exclusive_entries;
   };
@@ -117,6 +117,17 @@ struct context__ : public CONTEXT_POLICY {
 
   using field_info_map_t =
       std::map<std::pair<size_t, size_t>, std::map<field_id_t, field_info_t>>;
+
+  //--------------------------------------------------------------------------//
+  // Top-level driver interface.
+  //--------------------------------------------------------------------------//
+
+  using tlt_driver_t = std::function<int(int, char **)>;
+
+  bool register_top_level_driver(tlt_driver_t & driver) {
+    tlt_driver_ = driver;
+    return true;
+  } // register_top_level_driver
 
   //--------------------------------------------------------------------------//
   // Object interface.
@@ -792,6 +803,12 @@ private:
   context__ & operator=(const context__ &) = delete;
   context__(context__ &&) = delete;
   context__ & operator=(context__ &&) = delete;
+
+  //--------------------------------------------------------------------------//
+  // Top-level driver.
+  //--------------------------------------------------------------------------//
+
+  tlt_driver_t tlt_driver_ = {};
 
   //--------------------------------------------------------------------------//
   // Object data members.

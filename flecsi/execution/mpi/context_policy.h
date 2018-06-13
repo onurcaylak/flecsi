@@ -66,7 +66,7 @@ struct mpi_context_policy_t
       size_t num_shared,
       size_t num_ghost,
       size_t max_entries_per_index,
-      size_t reserve_chunk
+      size_t exclusive_reserve
     )
     : type_size(type_size),
     num_exclusive(num_exclusive),
@@ -74,8 +74,8 @@ struct mpi_context_policy_t
     num_ghost(num_ghost),
     num_total(num_exclusive + num_shared + num_ghost),
     max_entries_per_index(max_entries_per_index),
-    reserve_chunk(reserve_chunk),
-    reserve(reserve_chunk),
+    exclusive_reserve(exclusive_reserve),
+    reserve(exclusive_reserve),
     offsets(num_total),
     num_exclusive_entries(0){
 
@@ -101,7 +101,7 @@ struct mpi_context_policy_t
     size_t num_total = 0;
 
     size_t max_entries_per_index;
-    size_t reserve_chunk;
+    size_t exclusive_reserve;
     size_t reserve;
     size_t num_exclusive_entries;
 
@@ -576,14 +576,14 @@ public:
     size_t type_size,
     const coloring_info_t& coloring_info,
     size_t max_entries_per_index,
-    size_t reserve_chunk
+    size_t exclusive_reserve
   )
   {
     // TODO: VERSIONS
     sparse_field_data.emplace(
       fid, sparse_field_data_t(type_size, coloring_info.exclusive,
                                coloring_info.shared, coloring_info.ghost,
-                               max_entries_per_index, reserve_chunk));
+                               max_entries_per_index, exclusive_reserve));
   }
 
   std::map<field_id_t, sparse_field_data_t>&
