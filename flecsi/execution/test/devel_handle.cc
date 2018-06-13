@@ -9,6 +9,7 @@
 #include <flecsi/execution/execution.h>
 #include <flecsi/supplemental/coloring/add_colorings.h>
 #include <flecsi/supplemental/mesh/test_mesh_2d.h>
+#include <flecsi/data/client.h>
 #include <flecsi/data/dense_accessor.h>
 
 clog_register_tag(devel_handle);
@@ -31,7 +32,7 @@ using adjacency_info_t = flecsi::coloring::adjacency_info_t;
 template<
   size_t PS
 >
-using mesh = data_client_handle__<mesh_t, PS>;
+using mesh = flecsi::data_client_handle__<mesh_t, PS>;
 
 template<
   size_t EP,

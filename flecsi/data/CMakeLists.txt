@@ -27,7 +27,6 @@ set(data_HEADERS
   data.h
   data_client.h
   data_client_handle.h
-  data_client_handle.h
   data_constants.h
   dense_data_handle.h
   dense_accessor.h
